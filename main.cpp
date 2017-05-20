@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 		Coordinate(200, -100, 0), Coordinate(600, 200, -200)
 	};
 	Coordinate camera(200, 200, -400);
-	Scene scene(camera, objects, lights, 600, 400);
+	Scene scene(camera, objects, lights, 1920, 1080);
 	std::vector<std::vector<Coordinate>> pixels;
 	scene.render(pixels);
 	pixels_to_ppm(pixels);

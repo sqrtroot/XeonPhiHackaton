@@ -4,6 +4,7 @@
 #include "coordinate.hh"
 #include "sphere.hh"
 #include "ray.hpp"
+#include "tbb/tbb.h"
 #include <algorithm>
 #include <vector>
 
@@ -41,13 +42,35 @@ int traces;
 			}
 		}
 
-		for (size_t y = 0; y < height; y++) {
+		/*tbb::parallel_for( tbb::blocked_range<size_t>(0,calculation_queue.size()), 
+            [](const tbb::blocked_range<size_t>& r) {
+                      for(size_t i=r.begin(); i!=r.end(); ++i){
+                            auto values = calculation_queue[i];
+                            call_price(values.S,values.K,values.r,values.v,values.T);
+                            put_price(values.S,values.K,values.r,values.v,values.T);
+                      }
+                  }
+            );*/
+
+		/*for (size_t y = 0; y < height; y++) {
 			for (size_t x = 0; x < width; x++) {
 				Coordinate ray_direction = Coordinate(x,y) - camera;
 				Ray ray(camera, ray_direction);
 				pixels[y][x] = trace_ray(ray);
 			}
+		}*/
+
+		tbb::parallel_for(tbb::blocked_range<size_t>(0,height),
+		[=](const tbb::blocked_range<size_t>& r){
+			for(size_t y = r.begin(); y!=r.end();++y){
+				for(size_t x = 0; x < width; ++x){
+					auto ray_direction = Coordinate(x,y)-camera;
+					Ray ray(camera, ray_direction);
+					pixels[y][x] = trace_ray(ray);
+				}
+			}
 		}
+		)
 	}
 
 private:
@@ -72,7 +95,7 @@ private:
 		
 		traces++;
 		Color color;
-		if (depth > max_depth)
+		if (depth >= max_depth)
 			return color;
 		Intersection intersection = _get_intersection(ray);
 		if (!intersection.hasValue)
