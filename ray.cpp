@@ -5,7 +5,7 @@ origin(org),
 ray_direction(dir.normalized())
 {}
 
-Coordinate Ray::point_at_dist(float dist) const
+Coordinate Ray::point_at_dist(double dist) const
 {
 	return origin + ray_direction * dist;
 }

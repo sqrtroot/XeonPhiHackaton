@@ -11,7 +11,7 @@
 struct Intersection {
 	bool hasValue;
 	Sphere const* obj;
-	float value;
+	double value;
 };
 
 
@@ -68,7 +68,7 @@ private:
 		return intersection;
 	}
 
-	Color trace_ray(const Ray& ray, int depth = 0, int max_depth = 5) {
+	Color trace_ray(const Ray& ray, int depth = 0, int max_depth = 10) {
 		
 		traces++;
 		Color color;
@@ -78,7 +78,7 @@ private:
 		if (!intersection.hasValue)
 			return color;
 		Sphere const* obj = intersection.obj;
-		float dist = intersection.value;
+		double dist = intersection.value;
 		Coordinate intersection_pt = ray.point_at_dist(dist);
 		Coordinate surface_norm = obj->surface_norm(intersection_pt);
 
@@ -89,7 +89,7 @@ private:
 					Coordinate pt_to_light_vec = (light - intersection_pt).normalized();
 					Ray pt_to_light_ray(intersection_pt, pt_to_light_vec);
 					if (!_get_intersection(pt_to_light_ray).hasValue) {
-						float lambert_intensity = surface_norm * pt_to_light_vec;
+						double lambert_intensity = surface_norm * pt_to_light_vec;
 						if (lambert_intensity > 0) {
 							color += obj->material.color * obj->material.lambert * lambert_intensity;
 						}

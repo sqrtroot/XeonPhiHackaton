@@ -9,5 +9,5 @@ public:
 
 	Ray(Coordinate org, Coordinate dir);
 
-	Coordinate point_at_dist(float dist) const;
+	Coordinate point_at_dist(double dist) const;
 };

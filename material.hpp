@@ -6,9 +6,9 @@ class Material
 {
 	public:
 		Coordinate color;
-		float specular;
-		float lambert;
-		float ambient;
+		double specular;
+		double lambert;
+		double ambient;
 
-		Material(Coordinate col, float spec=0.5, float lamb=1, float amb=0.2);
+		Material(Coordinate col, double spec=0.5, double lamb=1, double amb=0.2);
 };

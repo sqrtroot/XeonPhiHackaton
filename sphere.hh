@@ -7,16 +7,16 @@
 
 typedef struct{
 	bool hasValue;
-	float value;
+	double value;
 } intersection_optional;
 
 class Sphere{
 public:
     Coordinate origin;
-    float radius;
+    double radius;
     Material material;
 
-    Sphere(Coordinate origin, float radius, Material material) : origin(origin),radius(radius),material(material){};
+    Sphere(Coordinate origin, double radius, Material material) : origin(origin),radius(radius),material(material){};
 
 
     intersection_optional intersects(Ray ray) const;
