@@ -1,4 +1,6 @@
 #pragma once
+#include "material.hpp"
+#include "ray.hpp"
 #include "coordinate.hh"
 class Sphere{
 public:
