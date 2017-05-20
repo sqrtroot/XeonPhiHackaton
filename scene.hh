@@ -27,7 +27,8 @@ public:
 		const std::vector<Sphere>& objects,
 		const std::vector<Coordinate>& lights,
 		int width,
-		int height);
+		int height): camera(camera), objects(objects), lights(lights), width(width), height(height) {
+	}
 
 	void render(std::vector<std::vector<Coordinate>>& pixels) {
 		pixels.clear();

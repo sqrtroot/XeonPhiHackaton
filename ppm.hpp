@@ -4,7 +4,7 @@
 #include "coordinate.hh"
 #include <vector>
 
-void pixels_to_ppm (std::vector<std::vector<Coordinate> > pixels)
+void pixels_to_ppm (const std::vector<std::vector<Coordinate> >& pixels)
 {
   int i, j;
   FILE *fp = fopen("first.ppm", "wb"); /* b - binary mode */
