@@ -6,6 +6,9 @@
 #include <fstream>
 #include <sstream>
 
+#ifdef __GNUC__
+#define M_SQRT1_2 0.707106781186547524401
+#endif
 #define M_PI 3.14159265358979323846
 
 double norm_cdf(double value)
