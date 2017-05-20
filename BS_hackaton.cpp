@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-
+#include <array>
 #include "tbb/tbb.h"
 
 #ifdef __GNUC__
