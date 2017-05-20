@@ -4,7 +4,7 @@
 #include <math.h>
 #include "coordinate.hh"
 
-Coordinate::Coordinate(double x, double y, double z)
+Coordinate::Coordinate(long double x, long double y, long double z)
     : x(x), y(y), z(z) {}
 
 bool Coordinate::operator==(const Coordinate &rhs) const {
@@ -38,7 +38,7 @@ Coordinate &Coordinate::operator-=(const Coordinate &rhs) {
     z -= rhs.z;
     return *this;
 }
-double operator*(Coordinate lhs, const Coordinate &rhs) {
+long double operator*(Coordinate lhs, const Coordinate &rhs) {
     return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 }
 
@@ -49,12 +49,12 @@ Coordinate &Coordinate::operator*=(const Coordinate &rhs) {
     return *this;
 }
 
-Coordinate operator*(Coordinate lhs, const double rhs) {
+Coordinate operator*(Coordinate lhs, const long double rhs) {
 	lhs *= rhs;
 	return lhs;
 }
 
-Coordinate &Coordinate::operator*=(const double rhs) {
+Coordinate &Coordinate::operator*=(const long double rhs) {
 	x *= rhs;
 	y *= rhs;
 	z *= rhs;
@@ -62,12 +62,12 @@ Coordinate &Coordinate::operator*=(const double rhs) {
 }
 
 
-Coordinate operator/(Coordinate lhs, const double rhs) {
+Coordinate operator/(Coordinate lhs, const long double rhs) {
 	lhs /= rhs;
 	return lhs;
 }
 
-Coordinate &Coordinate::operator/=(const double rhs) {
+Coordinate &Coordinate::operator/=(const long double rhs) {
 	x /= rhs;
 	y /= rhs;
 	z /= rhs;
@@ -78,11 +78,11 @@ Coordinate operator-(Coordinate lhs, const Coordinate &rhs) {
     lhs -= rhs;
     return lhs;
 }
-double Coordinate::euclideanDistance(const Coordinate &rhs) const {
-    return (double) sqrt(pow(x + rhs.x, 2) + pow(y + rhs.y, 2));
+long double Coordinate::euclideanDistance(const Coordinate &rhs) const {
+    return (long double) sqrt(pow(x + rhs.x, 2) + pow(y + rhs.y, 2));
 }
 
-double Coordinate::norm() const {
+long double Coordinate::norm() const {
 	return sqrt(x*x + y*y + z*z);
 }
 

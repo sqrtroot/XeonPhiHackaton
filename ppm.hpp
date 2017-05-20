@@ -13,7 +13,7 @@ void pixels_to_ppm (const std::vector<std::vector<Coordinate> >& pixels)
     {
       for (i = 0; i < pixels[j].size(); ++i)
 	{
-	  fprintf(fp, "%.0f %.0f %.0f ",pixels[j][i].x,pixels[j][i].y,pixels[j][i].z);
+	  fprintf(fp, "%d %d %d ",int(pixels[j][i].x),int(pixels[j][i].y),int(pixels[j][i].z));
 	}
   fprintf(fp,"\n");
     }

@@ -9,11 +9,11 @@
 
 class Coordinate {
 public:
-  Coordinate(double x = 0, double y = 0, double z = 0);
+  Coordinate(long double x = 0, long double y = 0, long double z = 0);
 
-  double x;
-  double y;
-  double z;
+  long double x;
+  long double y;
+  long double z;
 
   bool operator==(const Coordinate &rhs) const;
 
@@ -23,15 +23,15 @@ public:
 
   friend Coordinate operator+(Coordinate lhs, const Coordinate &rhs);
 
-  friend double operator*(Coordinate lhs, const Coordinate &rhs);
+  friend long double operator*(Coordinate lhs, const Coordinate &rhs);
   Coordinate &operator*=(const Coordinate &rhs);
 
-  friend Coordinate operator*(Coordinate lhs, const double rhs);
-  Coordinate &operator*=(const double rhs);
+  friend Coordinate operator*(Coordinate lhs, const long double rhs);
+  Coordinate &operator*=(const long double rhs);
 
 
-  friend Coordinate operator/(Coordinate lhs, const double rhs);
-  Coordinate &operator/=(const double rhs);
+  friend Coordinate operator/(Coordinate lhs, const long double rhs);
+  Coordinate &operator/=(const long double rhs);
 
   Coordinate &operator-=(const Coordinate &rhs);
 
@@ -39,10 +39,10 @@ public:
 
   friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
 
-  double euclideanDistance(const Coordinate &rhs) const;
+  long double euclideanDistance(const Coordinate &rhs) const;
 
 
-  double norm() const;
+  long double norm() const;
 
   Coordinate normalized() const;
   Coordinate reflected(const Coordinate& other) const;

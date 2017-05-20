@@ -96,7 +96,8 @@ private:
 					}
 				});
 		// specular (reflective) light
-		Ray reflected_ray(intersection_pt, ray.ray_direction.reflected(surface_norm).normalized());
+		Ray reflected_ray(intersection_pt.normalized(), ray.ray_direction.reflected(surface_norm).normalized());
+		//reflected_ray.origin.z = - reflected_ray.origin.z;
 		color += trace_ray(reflected_ray, depth+1) * obj->material.specular;
 		return color;
 	}
