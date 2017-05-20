@@ -1,6 +1,7 @@
+#pragma once
 #include "coordinate.hh"
 
-#pragma once
+
 class Material
 {
 	public:
