@@ -8,6 +8,8 @@
 #include <vector>
 #include <thread>
 
+#include "tbb/tbb.h"
+
 #define M_PI 3.14159265358979323846
 #define local_cores 4
 #define phi_cores 272
@@ -52,12 +54,6 @@ struct params{
 };
 
 std::vector<params> calculation_queue;
-void calculate(size_t start, size_t end){
-    for(size_t i = start; i < end; i++){
-        call_price(values.S,values.K,values.r,values.v,values.T);
-        put_price(values.S,values.K,values.r,values.v,values.T);
-    }
-}
 
 int main(int argc, char **argv) 
 {
@@ -78,14 +74,23 @@ int main(int argc, char **argv)
         // if (columns[0 /* underlying */] != "SPXW") continue;
         double S = atof(columns[1 /* underlying_last */].c_str());
         double K = atof(columns[8 /* strike */].c_str());
-        calculation_queue.push({S,K,r,v,T});
+        calculation_queue.push_back({S,K,r,v,T});
     }
     fi.close();
 
     // auto diff = calculation_queue.length() / local_cores + (calculation_queue.length() % local_cores == 0 ? 0 : 1);
 
     auto start = std::chrono::high_resolution_clock::now();
-  
+    parallel_for( blocked_range<size_t>(0,calculation_queue.length()), 
+            [](const blocked_range<size_t>& r) {
+                      for(size_t i=r.begin(); i!=r.end(); ++i){
+                            auto values = calculation_queue[i];
+                            call_price(values.S,values.K,values.r,values.v,values.T);
+                            put_price(values.S,values.K,values.r,values.v,values.T);
+                      }
+                  }
+            );
+
     auto end = std::chrono::high_resolution_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
     std::cout << "Calculation took: " << diff << "ms" << "\n";
