@@ -1,8 +1,8 @@
 #include "material.hpp"
 
-material::material(Coordinate col, float spec, float lamb, float amb) :
+Material::Material(Coordinate col, float spec, float lamb, float amb) :
 color(col),
 specular(spec),
 lambert(lamb),
-ambiant(amb)
+ambient(amb)
 {}

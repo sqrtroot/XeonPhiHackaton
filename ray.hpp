@@ -1,5 +1,6 @@
 #include "coordinate.hh"
 
+#pragma once
 class ray
 {
 public:
@@ -8,5 +9,5 @@ public:
 
 	ray(Coordinate org, Coordinate dir);
 
-	Coordinate point_at_dist(Coordinate dist);
-}
+	Coordinate point_at_dist(float dist);
+};

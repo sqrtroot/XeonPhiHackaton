@@ -1,5 +1,6 @@
 #include "coordinate.hh"
 
+#pragma once
 class Material
 {
 	public:
@@ -9,4 +10,4 @@ class Material
 		float ambient;
 
 		Material(Coordinate col, float spec, float lamb, float amb);
-}
+};
