@@ -7,12 +7,23 @@
 #include "tbb/tbb.h"
 #include <algorithm>
 #include <vector>
+#include <iostream>
+
+#define dividerX 2
+#define dividerY 2
 
 
 struct Intersection {
 	bool hasValue;
 	Sphere const* obj;
 	float value;
+};
+
+struct Block {
+	size_t startX;
+	size_t startY;
+	size_t endX;
+	size_t endY;
 };
 
 
@@ -42,36 +53,46 @@ int traces;
 			}
 		}
 
-		/*tbb::parallel_for( tbb::blocked_range<size_t>(0,calculation_queue.size()), 
-            [](const tbb::blocked_range<size_t>& r) {
-                      for(size_t i=r.begin(); i!=r.end(); ++i){
-                            auto values = calculation_queue[i];
-                            call_price(values.S,values.K,values.r,values.v,values.T);
-                            put_price(values.S,values.K,values.r,values.v,values.T);
-                      }
-                  }
-            );*/
-
-		/*for (size_t y = 0; y < height; y++) {
-			for (size_t x = 0; x < width; x++) {
-				Coordinate ray_direction = Coordinate(x,y) - camera;
-				Ray ray(camera, ray_direction);
-				pixels[y][x] = trace_ray(ray);
+		std::vector<Block> blocks;
+		for(int x = 0; x < dividerX; x++){
+			for(int y = 0; y < dividerY; y++){
+				blocks.push_back({
+					x     *	(width  / dividerX),
+					y     * (height / dividerY),
+					(x+1) * (width  / dividerX),
+					(y+1) * (height / dividerY)
+				});
 			}
-		}*/
-
-		tbb::parallel_for(
-			tbb::blocked_range<size_t>(0,height),
-			[&](const tbb::blocked_range<size_t>& r){
-				for(size_t y = r.begin(); y!=r.end();++y){
-					for(size_t x = 0; x < width; ++x){
+		}
+		for(auto b : blocks){
+			std::cout << "Block: [" << b.startX << ", " << b.startY << "] -> [" << b.endX << ", " << b.endY << "]\n";
+			tbb::parallel_for(
+				tbb::blocked_range<size_t>(0, (b.endX-b.startX)*(b.endY-b.startY)),
+				[&](const tbb::blocked_range<size_t>& r){
+					for(size_t xy = r.begin(); xy < r.end(); xy++){
+						int x = b.startX + (xy % (b.endX-b.startX));
+						int y = b.startY + (xy / (b.endY-b.startY));
 						auto ray_direction = Coordinate(x,y)-camera;
 						Ray ray(camera, ray_direction);
 						pixels[y][x] = trace_ray(ray);
-					}
+					}							
 				}
-			}
-		);
+			);
+		}
+		
+		
+		// tbb::parallel_for(
+		// 	tbb::blocked_range<size_t>(0,height),
+		// 	[&](const tbb::blocked_range<size_t>& r){
+		// 		for(size_t y = r.begin(); y!=r.end();++y){
+		// 			for(size_t x = 0; x < width; ++x){
+		// 				auto ray_direction = Coordinate(x,y)-camera;
+		// 				Ray ray(camera, ray_direction);
+		// 				pixels[y][x] = trace_ray(ray);
+		// 			}
+		// 		}
+		// 	}
+		// );
 	}
 
 private:
