@@ -1,13 +1,14 @@
 #include "coordinate.hh"
 
 #pragma once
-class ray
+
+class Ray
 {
 public:
 	Coordinate origin;
 	Coordinate ray_direction;
 
-	ray(Coordinate org, Coordinate dir);
+	Ray(Coordinate org, Coordinate dir);
 
-	Coordinate point_at_dist(float dist);
+	Coordinate point_at_dist(float dist) const;
 };

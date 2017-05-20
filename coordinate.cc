@@ -38,9 +38,8 @@ Coordinate &Coordinate::operator-=(const Coordinate &rhs) {
     z -= rhs.z;
     return *this;
 }
-Coordinate operator*(Coordinate lhs, const Coordinate &rhs) {
-    lhs *= rhs;
-    return lhs;
+float operator*(Coordinate lhs, const Coordinate &rhs) {
+    return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 }
 
 Coordinate &Coordinate::operator*=(const Coordinate &rhs) {

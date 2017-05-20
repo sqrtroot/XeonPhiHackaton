@@ -23,7 +23,7 @@ public:
 
   friend Coordinate operator+(Coordinate lhs, const Coordinate &rhs);
 
-  friend Coordinate operator*(Coordinate lhs, const Coordinate &rhs);
+  friend float operator*(Coordinate lhs, const Coordinate &rhs);
   Coordinate &operator*=(const Coordinate &rhs);
 
   friend Coordinate operator*(Coordinate lhs, const float rhs);
