@@ -10,6 +10,9 @@
 
 #include "tbb/tbb.h"
 
+#ifdef __GNUC__
+#define M_SQRT1_2 0.707106781186547524401
+#endif
 #define M_PI 3.14159265358979323846
 #define local_cores 4
 #define phi_cores 272
