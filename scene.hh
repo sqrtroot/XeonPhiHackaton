@@ -57,24 +57,23 @@ int traces;
 		for(int x = 0; x < dividerX; x++){
 			for(int y = 0; y < dividerY; y++){
 				blocks.push_back({
-					x     *	(width  / dividerX),
-					y     * (height / dividerY),
-					(x+1) * (width  / dividerX),
-					(y+1) * (height / dividerY)
+					x     *	(width  / dividerX + (width  % dividerX == 0 ? 0 : 1)),
+					y     * (height / dividerY + (height % dividerY == 0 ? 0 : 1)),
+					(x+1) * (width  / dividerX + (width  % dividerX == 0 ? 0 : 1)),
+					(y+1) * (height / dividerY + (height % dividerY == 0 ? 0 : 1))
 				});
 			}
 		}
 		for(auto b : blocks){
-			std::cout << "Block: [" << b.startX << ", " << b.startY << "] -> [" << b.endX << ", " << b.endY << "]\n";
 			tbb::parallel_for(
-				tbb::blocked_range<size_t>(0, (b.endX-b.startX)*(b.endY-b.startY)),
+				tbb::blocked_range<size_t>(b.startY,b.endY),
 				[&](const tbb::blocked_range<size_t>& r){
-					for(size_t xy = r.begin(); xy < r.end(); xy++){
-						int x = b.startX + (xy % (b.endX-b.startX));
-						int y = b.startY + (xy / (b.endY-b.startY));
-						auto ray_direction = Coordinate(x,y)-camera;
-						Ray ray(camera, ray_direction);
-						pixels[y][x] = trace_ray(ray);
+					for(size_t y = r.begin(); y < r.end(); y++){
+						for(size_t x = b.startX; x < b.endX; x++){
+							auto ray_direction = Coordinate(x,y)-camera;
+							Ray ray(camera, ray_direction);
+							pixels[y][x] = trace_ray(ray);
+						}
 					}							
 				}
 			);
