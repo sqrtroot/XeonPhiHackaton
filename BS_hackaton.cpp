@@ -6,7 +6,6 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <thread>
 
 #include "tbb/tbb.h"
 
@@ -84,8 +83,8 @@ int main(int argc, char **argv)
     // auto diff = calculation_queue.length() / local_cores + (calculation_queue.length() % local_cores == 0 ? 0 : 1);
 
     auto start = std::chrono::high_resolution_clock::now();
-    parallel_for( blocked_range<size_t>(0,calculation_queue.length()), 
-            [](const blocked_range<size_t>& r) {
+    tbb::parallel_for( tbb::blocked_range<size_t>(0,calculation_queue.size()), 
+            [](const tbb::blocked_range<size_t>& r) {
                       for(size_t i=r.begin(); i!=r.end(); ++i){
                             auto values = calculation_queue[i];
                             call_price(values.S,values.K,values.r,values.v,values.T);
