@@ -9,7 +9,7 @@
 
 class Coordinate {
 public:
-  Coordinate(float x, float y, float z);
+  Coordinate(float x = 0, float y = 0, float z = 0);
 
   float x;
   float y;
