@@ -60,17 +60,18 @@ int traces;
 			}
 		}*/
 
-		tbb::parallel_for(tbb::blocked_range<size_t>(0,height),
-		[&](const tbb::blocked_range<size_t>& r){
-			for(size_t y = r.begin(); y!=r.end();++y){
-				for(size_t x = 0; x < width; ++x){
-					auto ray_direction = Coordinate(x,y)-camera;
-					Ray ray(camera, ray_direction);
-					pixels[y][x] = trace_ray(ray);
+		tbb::parallel_for(
+			tbb::blocked_range<size_t>(0,height),
+			[&](const tbb::blocked_range<size_t>& r){
+				for(size_t y = r.begin(); y!=r.end();++y){
+					for(size_t x = 0; x < width; ++x){
+						auto ray_direction = Coordinate(x,y)-camera;
+						Ray ray(camera, ray_direction);
+						pixels[y][x] = trace_ray(ray);
+					}
 				}
 			}
-		}
-		)
+		);
 	}
 
 private:
