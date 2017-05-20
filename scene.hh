@@ -52,13 +52,15 @@ int traces;
                   }
             );*/
 
-		/*for (size_t y = 0; y < height; y++) {
+/*
+		for (size_t y = 0; y < height; y++) {
 			for (size_t x = 0; x < width; x++) {
 				Coordinate ray_direction = Coordinate(x,y) - camera;
 				Ray ray(camera, ray_direction);
 				pixels[y][x] = trace_ray(ray);
 			}
-		}*/
+		}
+*/
 
 		tbb::parallel_for(
 			tbb::blocked_range<size_t>(0,height),
@@ -107,7 +109,7 @@ private:
 		Coordinate surface_norm = obj->surface_norm(intersection_pt);
 
 		// ambient light
-		color += obj->material.color * obj->material.ambient;
+		color += scalar(obj->material.color, obj->material.ambient);
 		// lambert shading 
 		std::for_each(lights.begin(), lights.end(), [&](const Coordinate& light) {
 					Coordinate pt_to_light_vec = (light - intersection_pt).normalized();
@@ -115,14 +117,14 @@ private:
 					if (!_get_intersection(pt_to_light_ray).hasValue) {
 						double lambert_intensity = surface_norm * pt_to_light_vec;
 						if (lambert_intensity > 0) {
-							color += obj->material.color * obj->material.lambert * lambert_intensity;
+							color += scalar(obj->material.color, obj->material.lambert * lambert_intensity);
 						}
 					}
 				});
 		// specular (reflective) light
-		Ray reflected_ray(intersection_pt.normalized(), ray.ray_direction.reflected(surface_norm).normalized());
+		Ray reflected_ray(intersection_pt, ray.ray_direction.reflected(surface_norm).normalized());
 		//reflected_ray.origin.z = - reflected_ray.origin.z;
-		color += trace_ray(reflected_ray, depth+1) * obj->material.specular;
+		color += scalar(trace_ray(reflected_ray, depth+1),obj->material.specular);
 		return color;
 	}
 };

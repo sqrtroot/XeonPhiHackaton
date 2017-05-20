@@ -49,12 +49,12 @@ Coordinate &Coordinate::operator*=(const Coordinate &rhs) {
     return *this;
 }
 
-Coordinate operator*(Coordinate lhs, const long double rhs) {
-	lhs *= rhs;
+Coordinate scalar(Coordinate lhs, const long double rhs) {
+	lhs.self_scalar(rhs);
 	return lhs;
 }
 
-Coordinate &Coordinate::operator*=(const long double rhs) {
+Coordinate &Coordinate::self_scalar(const long double rhs) {
 	x *= rhs;
 	y *= rhs;
 	z *= rhs;
@@ -93,10 +93,6 @@ Coordinate Coordinate::normalized() const {
 }
 Coordinate Coordinate::reflected(const Coordinate& other) const {
 	Coordinate norm_other = other.normalized();
-	return *this - (*this * other) * other * 2;
-}
-
-Coordinate Coordinate::squared() const {
-	return *this * *this;
+	return *this - scalar(norm_other, (*this * other) *2);
 }
 

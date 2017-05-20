@@ -9,7 +9,7 @@
 
 class Coordinate {
 public:
-  Coordinate(long double x = 0, long double y = 0, long double z = 0);
+  explicit Coordinate(long double x = 0, long double y = 0, long double z = 0);
 
   long double x;
   long double y;
@@ -26,8 +26,8 @@ public:
   friend long double operator*(Coordinate lhs, const Coordinate &rhs);
   Coordinate &operator*=(const Coordinate &rhs);
 
-  friend Coordinate operator*(Coordinate lhs, const long double rhs);
-  Coordinate &operator*=(const long double rhs);
+  friend Coordinate scalar(Coordinate lhs, const long double rhs);
+  Coordinate &self_scalar(const long double rhs);
 
 
   friend Coordinate operator/(Coordinate lhs, const long double rhs);
@@ -47,8 +47,6 @@ public:
   Coordinate normalized() const;
   Coordinate reflected(const Coordinate& other) const;
   
-  Coordinate squared() const;
-
 };
 
 #endif //NAVIGATIONSYSTEM_COORDINATE_HH

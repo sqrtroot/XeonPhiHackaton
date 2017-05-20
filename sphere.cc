@@ -5,7 +5,7 @@
 
 intersection_optional Sphere::intersects(Ray ray) const {
     auto sphere_to_ray = ray.origin - origin;
-    double b = (ray.ray_direction * 2.f) * sphere_to_ray;
+    double b = scalar(ray.ray_direction, 2.f) * sphere_to_ray;
     double c = (sphere_to_ray * sphere_to_ray) - (radius * radius);
     double discriminant = (b*b) - 4.f * c;
     if(discriminant >= 0){
