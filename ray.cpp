@@ -2,7 +2,7 @@
 
 Ray::Ray(Coordinate org, Coordinate dir) :
 origin(org),
-ray_direction(dir)
+ray_direction(dir.normalized())
 {}
 
 Coordinate Ray::point_at_dist(float dist) const

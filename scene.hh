@@ -14,6 +14,7 @@ struct Intersection {
 	float value;
 };
 
+
 typedef Coordinate Color;
 
 class Scene {
@@ -23,24 +24,25 @@ std::vector<Coordinate> lights;
 int width;
 int height;
 public:
+int traces;
 	Scene(const Coordinate& camera, 
 		const std::vector<Sphere>& objects,
 		const std::vector<Coordinate>& lights,
 		int width,
-		int height): camera(camera), objects(objects), lights(lights), width(width), height(height) {
+		int height): camera(camera), objects(objects), lights(lights), width(width), height(height), traces(0) {
 	}
 
 	void render(std::vector<std::vector<Coordinate>>& pixels) {
 		pixels.clear();
 		for (size_t i = 0; i < height; i++) {
 			pixels.push_back(std::vector<Coordinate>({}));
-			for (size_t j = 0; j < height; j++) {
+			for (size_t j = 0; j < width; j++) {
 				pixels[i].emplace_back(0,0,0);
 			}
 		}
 
 		for (size_t y = 0; y < height; y++) {
-			for (size_t x = 0; x < height; x++) {
+			for (size_t x = 0; x < width; x++) {
 				Coordinate ray_direction = Coordinate(x,y) - camera;
 				Ray ray(camera, ray_direction);
 				pixels[y][x] = trace_ray(ray);
@@ -67,6 +69,8 @@ private:
 	}
 
 	Color trace_ray(const Ray& ray, int depth = 0, int max_depth = 5) {
+		
+		traces++;
 		Color color;
 		if (depth > max_depth)
 			return color;

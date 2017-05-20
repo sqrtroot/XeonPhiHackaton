@@ -10,5 +10,5 @@ class Material
 		float lambert;
 		float ambient;
 
-		Material(Coordinate col, float spec, float lamb, float amb);
+		Material(Coordinate col, float spec=0.5, float lamb=1, float amb=0.2);
 };
